@@ -1,0 +1,66 @@
+<div class="w-full pt-6 bg-gradient-to-b from-blue-100 to-white flex flex-col items-center justify-start pt-12">
+  <!-- Hero Section -->
+  <section class="text-center p-5 px-2 max-w-6xl w-full">
+    <h1 class="text-4xl md:text-5xl font-semibold text-blue-700">Short URL Multipli</h1>
+    <p class="text-gray-700 mt-4 text-lg md:text-xl max-w-4xl mx-auto">
+      Accorcia uno o più URL rapidamente e facilmente. Copia ed incolla gli url nell'area di testo
+    </p>
+  </section>
+
+  <!-- Main Tool Section -->
+  <section class="w-full max-w-[94%] h-[70vh] p-8 bg-white shadow-lg flex flex-col md:flex-row gap-6">
+    <!-- Colonna di input -->
+    <div class="w-full md:w-1/2 flex flex-col justify-between">
+      <h3 class="text-xl mb-4 text-blue-500">Aggiungi uno o più URL da shorterare</h3>
+      <textarea
+        rows="30" [(ngModel)]="urlInput" 
+        placeholder="Incolla uno o più URL, uno per riga"
+        class="w-full p-4 border-2 border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300"
+      ></textarea>
+  
+      <div class="text-right mt-4 space-x-2">
+        <button  [disabled]="!urlInput.trim() || justUploaded" [ngClass]="{
+            'bg-blue-500 hover:bg-blue-600': urlInput.trim() && !justUploaded,
+            'bg-blue-400 cursor-not-allowed': !urlInput.trim() || justUploaded
+          }" (click)="submit()"
+        class="text-white py-2 px-6 rounded-md transform hover:scale-105 transition duration-300">
+          Avvia short
+        </button>
+        <button [disabled]="disabled" [ngClass]="{
+          'bg-green-500 hover:bg-green-600': !disabled,
+          'bg-green-400 cursor-not-allowed': disabled
+        }" (click)="downloadCsv()"
+        class="text-white py-2 px-6 rounded-md transform hover:scale-105 transition duration-300">
+          Scarica CSV
+        </button>
+      </div>
+    </div>
+  
+    <!-- Colonna dei risultati -->
+    <div class="w-full md:w-1/2 h-full mt-6 md:mt-0 overflow-auto">
+      <h3 class="text-xl mb-4 text-blue-500">Risultati</h3>
+      <div class="border overflow-hidden">
+        <table class="w-full table-auto">
+          <thead class="bg-blue-500">
+            <tr>
+              <th class="text-left font-light p-4 text-white w-[60%]">Originale</th>
+              <th class="text-left font-light p-4 text-white w-[50%]">Short URL</th>
+            </tr>
+          </thead>
+        </table>
+        <div class="max-h-[470px] overflow-y-auto">
+          <table class="w-full table-auto">
+            <tbody>
+              <tr *ngFor="let r of results" class="hover:bg-gray-50">
+                <td class="p-4 border-b break-all w-[60%] text-sm">{{ r.original }}</td>
+                <td class="p-4 border-b break-all w-[40%] text-sm">
+                  <a [href]="r.shortUrl" target="_blank" class="text-blue-600 underline">{{ r.shortUrl }}</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,95 @@
+<div class="w-full pt-6 bg-gradient-to-b from-blue-100 to-white flex flex-col items-center justify-start pt-12">
+  <!-- Hero Section -->
+  <section class="text-center p-5 px-2 max-w-6xl w-full">
+    <h1 class="text-4xl md:text-5xl font-semibold text-blue-700">Short URL da CSV</h1>
+    <p class="text-gray-700 mt-4 text-lg md:text-xl max-w-4xl mx-auto">
+      Accorcia uno o più URL rapidamente e facilmente inserendo il CSV nella drop zone.
+    </p>
+  </section>
+  
+ <!-- Sezione: Caricamento da CSV -->
+  <section class="w-full max-w-[94%] h-[70vh] p-8 bg-white shadow-lg flex flex-col md:flex-row gap-6">
+    
+    <!-- Colonna Upload CSV -->
+    <div class="w-full md:w-1/2 flex flex-col justify-between">
+      <h3 class="text-xl text-blue-500">Carica un file CSV contenente gli URL da shorterare</h3>
+      
+      <div class="flex flex-col items-start space-y-4">
+        <!-- Input file -->
+        <div
+          class="w-full border-2 border-dashed border-blue-300 h-[478px] p-6 text-center cursor-pointer hover:border-blue-400 transition"
+          (drop)="onDrop($event)"
+          (dragover)="onDragOver($event)"
+          (dragleave)="onDragLeave($event)"
+          [class.bg-blue-50]="isDragging"
+          (click)="fileInput.click()"
+        >
+          <input
+            type="file"
+            #fileInput
+            class="hidden"
+            (change)="onFileSelected($event)"
+            accept=".csv"
+          />
+          <svg class="mx-auto mb-3  mt-[170px] text-blue-400" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48" fill="currentColor">
+            <path d="M480 936q-140 0-238-98T144 600q0-103 59.5-185T400 296q20-79 81.5-129.5T623 116q103 0 175.5 72.5T871 364q0 39-10.5 74.5T826 507q58 29 91 83.5T950 700q0 100-70 168t-180 68H480Zm0-60h220q69 0 114.5-45T860 700q0-58-40.5-99T716 560h-36v-30q0-98-68.5-165T447 298q-86 0-146.5 60.5T240 505v20h-20q-59 0-99.5 40.5T80 664q0 85 61 143.5T280 866h200v-98l-52 52-42-42 120-120 120 120-42 42-54-54v100Zm0-300Z"/>
+          </svg>
+          <p class="text-blue-400 hover:text-blue-500">Trascina un file CSV qui o clicca per selezionarlo</p>
+        </div>
+
+        <div class="flex flex-wrap gap-2 mt-4 justify-end w-[100%]">
+          <button 
+            (click)="accorciaUrls()"
+            [disabled]="csvData.length == 0 || justUploaded" [ngClass]="{
+              'bg-blue-500 hover:bg-blue-600': csvData.length > 0 && !justUploaded,
+              'bg-blue-400 cursor-not-allowed': csvData.length == 0 || justUploaded
+            }"
+            class="text-white py-2 px-6 rounded-md transform hover:scale-105 transition duration-300"
+          >
+              Avvia short
+          </button>
+        
+          <button 
+            (click)="downloadCsv()"
+            [disabled]="!startAccorcia"
+            [ngClass]="{
+              'bg-green-500 hover:bg-green-600': startAccorcia,
+              'bg-green-400 cursor-not-allowed': !startAccorcia
+            }"
+            class="text-white py-2 px-6 rounded-md transform hover:scale-105 transition duration-300"
+          >
+            Scarica CSV
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colonna Risultati -->
+    <div class="w-full md:w-1/2 h-full mt-6 md:mt-0 overflow-auto">
+      <h3 class="text-xl mb-4 text-blue-500">Risultati</h3>
+      <div class="border overflow-hidden">
+        <table class="w-full table-auto mt-0">
+          <thead class="bg-blue-500">
+            <tr>
+              <th class="text-left p-4 font-light text-white w-[60%]">Originale</th>
+              <th *ngIf="startAccorcia" class="text-left font-light p-4 text-white w-[40%]">Short URL</th>
+            </tr>
+          </thead>
+        </table>
+        <div class="max-h-[470px] overflow-y-auto">
+          <table class="w-full table-auto text-sm text-left">
+            <tbody>
+              <tr *ngFor="let row of csvData" class="hover:bg-gray-100">
+                <td class="p-4 border-b break-all w-[60%] text-sm">{{ row.url }}</td>
+                <td *ngIf="startAccorcia" class="p-4 border-b break-all w-[40%] text-sm"> 
+                  <a [href]="row.shortUrl" target="_blank" class="text-blue-600 underline">{{ row.shortUrl }}</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+  </section>
+</div>
