@@ -1,0 +1,17 @@
+
+/* Animazione per il menu a tendina */
+@keyframes dropdown {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-dropdown {
+  animation: dropdown 0.3s ease-out forwards;
+}
+

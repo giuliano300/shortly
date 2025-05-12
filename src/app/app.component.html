@@ -1,36 +1,53 @@
 <div class="bg-blue-600 dark:bg-gray-900 p-4 relative">
-  <div class="flex items-center justify-between">
+  <div class="flex items-center justify-between w-full">
     <!-- Logo a sinistra -->
     <a routerLink="/"><img src="/assets/images/logo.png" alt="shortly" class="h-10"></a>
     
-    <!-- Menu Desktop -->
-    <ul class="hidden md:flex space-x-6 mx-auto">
-      <li>
-        <a routerLink="/" routerLinkActive="bg-blue-500" [routerLinkActiveOptions]="{ exact: true }" 
-         class="text-white hover:bg-blue-500 px-4 py-2 rounded-md">Home</a>
-      </li>
-      <li>
-        <a routerLink="/shortner" routerLinkActive="bg-blue-500" class="text-white dark:text-gray-300 hover:bg-blue-500 dark:hover:bg-gray-600 px-4 py-2 rounded-md">Caricamento manuale</a>
-      </li>
-      <li>
-        <a routerLink="/fromCsv" routerLinkActive="bg-blue-500" class="text-white dark:text-gray-300 hover:bg-blue-500 dark:hover:bg-gray-600 px-4 py-2 rounded-md">Caricamento da CSV</a>
-      </li>
-    </ul>
+    <!-- Menu Desktop centrato -->
+    <div class="flex-1 flex justify-center">
+      <ul class="hidden md:flex space-x-6">
+        <li>
+          <a routerLink="/" routerLinkActive="bg-blue-500" [routerLinkActiveOptions]="{ exact: true }" 
+            class="text-white hover:bg-blue-500 px-4 py-2 rounded-md duration-500">Home</a>
+        </li>
+        <li>
+          <a routerLink="/shortener" routerLinkActive="bg-blue-500" 
+          class="text-white dark:text-gray-300 hover:bg-blue-500 dark:hover:bg-gray-600 px-4 py-2 rounded-md duration-500">Caricamento manuale</a>
+        </li>
+        <li>
+          <a routerLink="/fromCsv" routerLinkActive="bg-blue-500" 
+          class="text-white dark:text-gray-300 hover:bg-blue-500 dark:hover:bg-gray-600 px-4 py-2 rounded-md duration-500">Caricamento da CSV</a>
+        </li>
+      </ul>
+    </div>
 
+    <!-- Se l'utente non è loggato -->
     <a *ngIf="!(auth.isLoggedIn$ | async); else logoutBlock"
       routerLink="/login"
-      class="text-white hover:bg-blue-500 px-4 py-2 rounded-md flex items-center">
-      <i class="fas fa-sign-in-alt mr-2"></i> Login
+      class="hidden md:flex text-white hover:bg-blue-500 px-4 py-2 rounded-md items-center duration-500">
+      <i class="fas fa-sign-in-alt mr-2"></i> Accedi
     </a>
 
+    <!-- Se l'utente è loggato -->
     <ng-template #logoutBlock>
-      <button
-        (click)="onLogout()"
-        class="text-white hover:bg-red-500 bg-red-600 px-4 py-2 rounded-md flex items-center">
-        <i class="fas fa-sign-out-alt mr-2"></i> Logout
-      </button>
+      <div class="relative" #dropdownMenu>
+        <button (click)="toggleDropdown()" class="text-white hover:bg-blue-500 px-4 py-2 rounded-md flex items-center text-md font-light duration-500">
+          <i class="fas fa-user"></i>
+        </button>
+
+        <!-- Menu a tendina -->
+        <div *ngIf="isDropdownOpen" class="absolute top-10 right-0 mt-2 bg-white text-black rounded-lg shadow-xl transform transition-all duration-300 ease-in-out scale-95 opacity-0 animate-dropdown">
+          <h5 class="block w-full text-left px-6 py-3 text-md text-blue-600">{{userEmail}}</h5>
+          <a routerLink="/historyUploads" (click)="toggleDropdown()" class="block px-6 py-2 text-md hover:bg-blue-50 rounded-md transition-colors duration-500">
+            <i class="fas fa-history mr-3"></i> Storico caricamenti
+          </a>
+          <button (click)="onLogout()" class="block w-full text-left px-6 py-2 text-md text-red-500 hover:bg-blue-50 rounded-md transition-colors duration-500">
+            <i class="fas fa-sign-out-alt mr-3"></i> Logout
+          </button>
+        </div>
+      </div>
     </ng-template>
-    
+
     <!-- Menu Hamburger -->
     <div class="md:hidden flex items-center">
       <button (click)="toggleMenu()" class="text-white">
@@ -43,11 +60,28 @@
 
   <!-- Menu mobile (toggle visibility) -->
   <div [ngClass]="{'block': isMenuOpen, 'hidden': !isMenuOpen}" 
-       class="md:hidden absolute top-0 left-0 w-full bg-blue-600 dark:bg-gray-900 p-4 mt-12">
-    <a routerLink="/" class="text-white dark:text-gray-300 hover:bg-blue-500 dark:hover:bg-gray-600 px-4 py-2 rounded-md">Home</a>
-    <a routerLink="/shortner" class="text-white dark:text-gray-300 hover:bg-blue-500 dark:hover:bg-gray-600 px-4 py-2 rounded-md">Caricamento manuale</a>
-    <a routerLink="/fromCsv" class="text-white dark:text-gray-300 hover:bg-blue-500 dark:hover:bg-gray-600 px-4 py-2 rounded-md">Caricamento da CSV</a>
-  </div>
+       class="md:hidden absolute top-5 left-0 w-full bg-blue-600 dark:bg-gray-900 p-4 mt-12 flex flex-col gap-y-2">
+    <a routerLink="/" (click)="toggleMenu()" class="text-white dark:text-gray-300 hover:bg-blue-500 dark:hover:bg-gray-600 px-4 py-2 rounded-md w-full text-left">
+      Home
+    </a>
+    <a routerLink="/shortener" (click)="toggleMenu()" class="text-white dark:text-gray-300 hover:bg-blue-500 dark:hover:bg-gray-600 px-4 py-2 rounded-md w-full text-left">
+      Caricamento manuale
+    </a>
+    <a routerLink="/fromCsv" (click)="toggleMenu()" class="text-white dark:text-gray-300 hover:bg-blue-500 dark:hover:bg-gray-600 px-4 py-2 rounded-md w-full text-left">
+      Caricamento da CSV
+    </a>  
+    <a *ngIf="!(auth.isLoggedIn$ | async); else logoutBlockmobile" routerLink="/login" (click)="toggleMenu()" class="text-white dark:text-gray-300 hover:bg-blue-500 dark:hover:bg-gray-600 px-4 py-2 rounded-md w-full text-left">
+      Accedi
+    </a>  
+     <ng-template #logoutBlockmobile>
+      <a routerLink="/historyUploads" (click)="toggleMenu()" class="text-white  px-4 py-2">Storico caricamenti</a>
+      <button
+        (click)="onLogout()"
+        class="text-white hover:bg-red-500 bg-red-600 px-4 py-2 rounded-md flex items-center">
+        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+      </button>
+    </ng-template>
+ </div>
 </div>
 
 <router-outlet />

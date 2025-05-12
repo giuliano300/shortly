@@ -5,6 +5,7 @@ import { FromCsvComponent } from './component/fromCsv/from-csv/from-csv.componen
 import { LoginComponent } from './component/login/login/login.component';
 import { authGuard } from './guard/auth.guard';
 import { loginGuard } from './guard/login.guard';
+import { HistoryUploadComponent } from './component/historyUpload/history-upload.component';
 
 export const routes: Routes = [
   {
@@ -12,13 +13,18 @@ export const routes: Routes = [
     component:LandingComponent
   },
   {
-    path: 'shortner',
+    path: 'shortener',
     component:ShortenerComponent,
     canActivate: [authGuard]
   },
   {
     path: 'fromCsv',
     component:FromCsvComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'historyUploads',
+    component:HistoryUploadComponent,
     canActivate: [authGuard]
   },
   {

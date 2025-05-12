@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Users } from '../../../Interfaces/Users';
 
@@ -14,22 +14,41 @@ import { Users } from '../../../Interfaces/Users';
 })
 export class LoginComponent {
 
-    username = '';
-    password = '';
+
     errorMessage: string | null = null;
     tokenEmail: string | null = null;
     user: Users | null = null;
-
-    form = new FormGroup({
-        email: new FormControl('', [Validators.required, Validators.email]),
-        password: new FormControl('', Validators.required)
-    });
+    form!: FormGroup;
 
     constructor(
         private auth: AuthService,
-        private router: Router
+        private router: Router,
+        private fb: FormBuilder
     ) {}
-    
+
+    ngOnInit(): void {
+        this.form = this.fb.group({
+            email: new FormControl('', {
+            validators: [Validators.required, Validators.email],
+            asyncValidators: [],
+            updateOn: 'change' // Specifica quando il controllo viene aggiornato
+            }),
+            password: new FormControl('', {
+            validators: [Validators.required, Validators.minLength(6)],
+            asyncValidators: [],
+            updateOn: 'change'
+            })
+        });
+    }
+
+    get username() {
+        return this.form.get('email');
+    }
+
+    get password() {
+        return this.form.get('password');
+    }
+            
     onSubmit() {
         if (this.form.valid) {
         this.errorMessage = null; 

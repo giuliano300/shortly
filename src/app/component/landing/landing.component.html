@@ -1,52 +1,154 @@
-<div class="bg-gradient-to-b from-blue-100 to-white min-h-screen">
-    <!-- Hero -->
-    <section class="text-center py-20 px-6">
-      <h1 class="text-4xl md:text-5xl font-semibold text-blue-700">Accorcia i tuoi URL in un lampo</h1>
-      <p class="text-gray-700 mt-4 text-lg md:text-xl max-w-2xl mx-auto">
-        Uno strumento semplice e potente per ridurre e gestire i tuoi link.
-      </p>
-      <div class="mt-8">
-        <a routerLink="/shortner" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg">
-          Prova Ora
+<div class="bg-gradient-to-b from-blue-100 via-white to-white text-gray-800">
+
+  <!-- Hero -->
+  <section class="text-center py-24 px-6 bg-[url('/assets/images/hero-bg.png')] bg-no-repeat bg-cover">
+    <h1 class="text-5xl md:text-6xl font-extrabold text-blue-800 drop-shadow-sm" data-aos="fade-up" data-aos-delay="200">Accorcia i tuoi URL in un lampo</h1>
+    <p class="text-gray-700 mt-6 text-lg md:text-xl max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+      Uno strumento semplice e potente per ridurre e gestire i tuoi link. Registrazione gratuita per iniziare!
+    </p>
+    <div class="mt-10" data-aos="fade-up" data-aos-delay="200">
+      <ng-template #notLoggedIn>
+        <a routerLink="/login"  class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full shadow-xl transition duration-300">
+          Registrati è Gratis
         </a>
-      </div>
-    </section>
-  
-    <!-- Funzionalità -->
-    <section class="py-16 bg-white">
-      <div class="max-w-5xl mx-auto px-6 grid gap-12 md:grid-cols-3 text-center">
-        <div>
-          <h3 class="text-xl font-semibold text-blue-700">Accorciamento Istantaneo</h3>
-          <p class="mt-2 text-gray-600">Inserisci più URL e ottieni link brevi in pochi secondi.</p>
-        </div>
-        <div>
-          <h3 class="text-xl font-semibold text-blue-700">Carica da CSV</h3>
-          <p class="mt-2 text-gray-600">Supporta caricamento e accorciamento in blocco da file CSV.</p>
-        </div>
-        <div>
-          <h3 class="text-xl font-semibold text-blue-700">Download Risultati</h3>
-          <p class="mt-2 text-gray-600">Scarica i tuoi link accorciati in un comodo file CSV.</p>
+      </ng-template>
+      <div *ngIf="user$ | async as user; else notLoggedIn">
+        <div class="mt-8 flex flex-col md:flex-row justify-center gap-4">
+          <a routerLink="/shortener" class="bg-blue-600 text-white font-light hover:bg-blue-500 py-3 px-6 rounded-full shadow-lg transition duration-300">
+            Caricamento Manuale
+          </a>
+          <a routerLink="/fromCsv" class="bg-blue-600 text-white font-light hover:bg-blue-500 py-3 px-6 rounded-full shadow-lg transition duration-300">
+            Caricamento da CSV
+          </a>
         </div>
       </div>
-    </section>
-  
-    <!-- Anteprima Tool -->
-    <section class="py-16 bg-gray-50">
-      <div class="max-w-4xl mx-auto px-6 text-center">
-        <h2 class="text-2xl font-bold text-blue-700 mb-6">Una UI semplice e intuitiva</h2>
-        <img src="/assets/images/tool-preview.png" alt="Anteprima tool" class="rounded-xl shadow-lg mx-auto w-full max-w-3xl">
+    </div>
+  </section>
+
+  <!-- Funzionalità -->
+  <section class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-6 grid gap-12 md:grid-cols-3 text-center">
+      <div class="bg-blue-50 p-8 rounded-3xl shadow-lg hover:shadow-2xl transition duration-300" data-aos="fade-up" data-aos-delay="100">
+        <i class="ph ph-lightning text-5xl text-blue-600 mb-4"></i>
+        <h3 class="text-xl font-semibold text-blue-700">Accorciamento Istantaneo</h3>
+        <p class="mt-3 text-gray-600">Inserisci più URL e ottieni link brevi in pochi secondi, dopo la registrazione gratuita.</p>
       </div>
-    </section>
-  
-    <!-- Call to Action -->
-    <section class="py-20 text-center bg-blue-600 text-white">
-      <h2 class="text-3xl font-bold">Inizia a risparmiare tempo oggi stesso</h2>
-      <p class="mt-4 text-lg">Accorcia migliaia di url caricandoli direttamente da un file CSV</p>
-      <div class="mt-8">
-        <a routerLink="/fromCsv" class="bg-white text-blue-700 font-semibold py-3 px-6 rounded-xl shadow hover:bg-gray-100 transition">
-          Vai al tool
-        </a>
+      <div class="bg-blue-50 p-8 rounded-3xl shadow-lg hover:shadow-2xl transition duration-300" data-aos="fade-up" data-aos-delay="200">
+        <i class="ph ph-upload-simple text-5xl text-blue-600 mb-4"></i>
+        <h3 class="text-xl font-semibold text-blue-700">Caricamento CSV</h3>
+        <p class="mt-3 text-gray-600">Carica un file CSV per accorciare migliaia di link. Disponibile per utenti registrati.</p>
       </div>
-    </section>
-  </div>
-  
+      <div class="bg-blue-50 p-8 rounded-3xl shadow-lg hover:shadow-2xl transition duration-300" data-aos="fade-up" data-aos-delay="300">
+        <i class="ph ph-download-simple text-5xl text-blue-600 mb-4"></i>
+        <h3 class="text-xl font-semibold text-blue-700">Download Risultati</h3>
+        <p class="mt-3 text-gray-600">Scarica i tuoi link accorciati in un file CSV dopo l’accesso.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Come Funziona -->
+  <section class="py-24 bg-gray-50">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h2 class="text-4xl font-bold text-blue-700 mb-14">Come funziona?</h2>
+      <div class="grid md:grid-cols-3 gap-10">
+        <div class="bg-white p-8 rounded-3xl shadow-md hover:shadow-xl transition duration-300" data-aos="fade-up" data-aos-delay="100">
+          <i class="ph ph-user-plus text-5xl text-blue-600 mb-4"></i>
+          <h3 class="text-xl font-semibold text-blue-700 mb-2">1. Registrati</h3>
+          <p class="text-gray-600">Crea un account gratuito in pochi secondi.</p>
+        </div>
+        <div class="bg-white p-8 rounded-3xl shadow-md hover:shadow-xl transition duration-300" data-aos="fade-up" data-aos-delay="200">
+          <i class="ph ph-pencil-simple text-5xl text-blue-600 mb-4"></i>
+          <h3 class="text-xl font-semibold text-blue-700 mb-2">2. Inserisci i link</h3>
+          <p class="text-gray-600">Accorcia manualmente o carica un file CSV.</p>
+        </div>
+        <div class="bg-white p-8 rounded-3xl shadow-md hover:shadow-xl transition duration-300" data-aos="fade-up" data-aos-delay="300">
+          <i class="ph ph-check-circle text-5xl text-blue-600 mb-4"></i>
+          <h3 class="text-xl font-semibold text-blue-700 mb-2">3. Ottieni risultati</h3>
+          <p class="text-gray-600">Scarica i link accorciati in formato CSV.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="py-24 bg-gray-100 text-center">
+    <h2 class="text-4xl font-bold text-blue-700 mb-12">Perché sceglierci?</h2>
+    <div class="grid md:grid-cols-3 gap-8 px-6 max-w-6xl mx-auto">
+      <div class="bg-blue-50 p-6 rounded-2xl shadow-lg" data-aos="fade-up" data-aos-delay="100">
+        <i class="ph ph-shield-check text-5xl text-blue-600 mb-4"></i>
+        <h3 class="text-xl font-semibold text-blue-700 mb-2">Sicurezza</h3>
+        <p class="text-gray-600">I tuoi link sono protetti con standard di sicurezza avanzati.</p>
+      </div>
+      <div class="bg-blue-50 p-6 rounded-2xl shadow-lg" data-aos="fade-up" data-aos-delay="200">
+        <i class="ph ph-speedometer text-5xl text-blue-600 mb-4"></i>
+        <h3 class="text-xl font-semibold text-blue-700 mb-2">Velocità</h3>
+        <p class="text-gray-600">Ottimizzato per performance elevate e caricamenti istantanei.</p>
+      </div>
+      <div class="bg-blue-50 p-6 rounded-2xl shadow-lg" data-aos="fade-up" data-aos-delay="300">
+        <i class="ph ph-smiley text-5xl text-blue-600 mb-4"></i>
+        <h3 class="text-xl font-semibold text-blue-700 mb-2">User Friendly</h3>
+        <p class="text-gray-600">Interfaccia semplice e intuitiva, anche per principianti.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dicono di noi -->
+  <section class="py-24 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2 class="text-4xl font-bold text-blue-700 mb-12">Dicono di noi</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-2xl shadow-lg" data-aos="fade-up" data-aos-delay="100">
+          <p class="text-gray-600 italic">"Facilissimo da usare e ha reso la gestione dei miei link molto più veloce."</p>
+          <div class="mt-4 font-semibold text-blue-600">Giulia R. – Content Creator</div>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-lg" data-aos="fade-up" data-aos-delay="200">
+          <p class="text-gray-600 italic">"La funzione CSV mi ha fatto risparmiare ore ogni settimana!"</p>
+          <div class="mt-4 font-semibold text-blue-600">Marco D. – Agenzia Marketing</div>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-lg" data-aos="fade-up" data-aos-delay="300">
+          <p class="text-gray-600 italic">"Servizio affidabile, rapido e con un’interfaccia bellissima."</p>
+          <div class="mt-4 font-semibold text-blue-600">Laura S. – Freelance</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FAQ -->
+  <section class="py-24 bg-white">
+    <div class="max-w-4xl mx-auto px-6">
+      <h2 class="text-4xl font-bold text-blue-700 text-center mb-12">Domande Frequenti</h2>
+      <div class="space-y-4">
+        <details class="bg-blue-50 rounded-xl p-4 shadow" data-aos="fade-up">
+          <summary class="cursor-pointer text-lg font-semibold text-blue-700">Devo registrarmi per usare il servizio?</summary>
+          <p class="mt-2 text-gray-700">Sì, per accorciare i link è richiesta la registrazione gratuita.</p>
+        </details>
+        <details class="bg-blue-50 rounded-xl p-4 shadow" data-aos="fade-up" data-aos-delay="100">
+          <summary class="cursor-pointer text-lg font-semibold text-blue-700">Posso caricare più link insieme?</summary>
+          <p class="mt-2 text-gray-700">Certo! Puoi farlo tramite il caricamento CSV o con il caricamento manuale, anche migliaia di link per volta.</p>
+        </details>
+        <details class="bg-blue-50 rounded-xl p-4 shadow" data-aos="fade-up" data-aos-delay="200">
+          <summary class="cursor-pointer text-lg font-semibold text-blue-700">È possibile modificare o eliminare un link?</summary>
+          <p class="mt-2 text-gray-700">Attualmente no, ma è una funzione prevista per le prossime versioni.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="py-20 text-center bg-gradient-to-r from-blue-700 to-blue-500 text-white">
+    <h2 class="text-4xl font-bold" data-aos="fade-up" data-aos-delay="200">Inizia a risparmiare tempo oggi stesso</h2>
+    <p class="mt-5 text-lg max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+      Registrati gratuitamente per accorciare URL singolarmente o in blocco tramite caricamento CSV.
+    </p>
+    <div class="mt-10 flex flex-col md:flex-row justify-center gap-4" data-aos="fade-up" data-aos-delay="200">
+      <a routerLink="/shortener" class="bg-white text-blue-700 font-semibold py-3 px-6 rounded-full shadow hover:bg-gray-200 transition duration-300">
+        Caricamento Manuale
+      </a>
+      <a routerLink="/fromCsv" class="bg-white text-blue-700 font-semibold py-3 px-6 rounded-full shadow hover:bg-gray-200 transition duration-300">
+        Caricamento da CSV
+      </a>
+    </div>
+  </section>
+
+</div>

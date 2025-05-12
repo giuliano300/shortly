@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, UserCredential, authState, User, signInWithEmailAndPassword, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Users } from '../Interfaces/Users';
 import { UsersService } from './user.service';
 
@@ -17,6 +17,13 @@ export class AuthService {
 
   user$: Observable<User | null> = authState(this.auth);
 
+  private emailSubject = new BehaviorSubject<string | null>(localStorage.getItem('tokenEmail'));
+  email$ = this.emailSubject.asObservable();
+
+  private idSubject = new BehaviorSubject<string | null>(localStorage.getItem('tokenId'));
+  id$ = this.idSubject.asObservable();
+
+
   isLoggedIn$: Observable<boolean> = this.user$.pipe(map(user => !!user));
 
   async login(email: string, password: string) {
@@ -28,8 +35,8 @@ export class AuthService {
 
         const user = result.user;
         const u: Users = {
-          name: user.displayName ?? email,
-          email: user.email ?? email,
+          name: email,
+          email: email,
           pwd: '',
           subcribedFrom:'Website',
           createdAt: new Date()
@@ -86,12 +93,22 @@ export class AuthService {
       if (data != null) {
         localStorage.setItem('tokenEmail', data.email);
         localStorage.setItem('tokenId', data.id!.toString());
+        this.updateUser(data.email, data.id!.toString())
+        
         this.router.navigate(['/']);
         
       }
     });
   }
 
+  
+  updateUser(email: string, id: string): void {
+    localStorage.setItem('tokenEmail', email);
+    this.emailSubject.next(email); 
+
+    localStorage.setItem('tokenId', id);
+    this.idSubject.next(id); 
+  }
 
   logout() {
     localStorage.removeItem('tokenEmail');

@@ -1,38 +1,47 @@
 <div class="w-full pt-6 bg-gradient-to-b from-blue-100 to-white flex flex-col items-center justify-start pt-12">
     <!-- Hero Section -->
     <section class="text-center p-5 px-2 max-w-6xl w-full">
-      <h1 class="text-4xl md:text-5xl font-semibold text-blue-700">Effettua il Login</h1>
+      <h1 class="text-4xl md:text-5xl font-semibold text-blue-700">Registrati ora</h1>
       <p class="text-gray-700 mt-4 text-lg md:text-xl max-w-4xl mx-auto">
-        Accedi al tuo account <br>per accedere alla piattaforma.
+        Registrati per usufruire gratuitamente dei servizi<br>di caricamento manuale e tramite csv.
       </p>
     </section>
   
     <!-- Sezione: Form di login -->
     <section class="w-full max-w-md p-8 bg-white shadow-lg flex flex-col gap-6">
       <!-- Form Login -->
-        <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
-          <div class="flex flex-col gap-6">
-            <h3 class="text-xl text-blue-500">Accedi al tuo account</h3>
-    
-                <!-- Input username -->
-                <input type="text" placeholder="Username" formControlName="email"
-                class="p-4 border border-blue-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-400">
-          
-                <!-- Input password -->
-                <input type="password" placeholder="Password" formControlName="password"
-                 class="p-4 border border-blue-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-400">
-          
-                <!-- Button Login -->
-                <button type="submit"  [disabled]="form.invalid"            
-                  class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-md transform hover:scale-105 transition duration-300">
-                  Login
-                </button>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+      <div class="flex flex-col gap-6">
+        <h3 class="text-xl text-blue-500">Crea o accedi al tuo account</h3>
 
-                  <div *ngIf="!errorMessage" class="text-red-400 text-center">
-                      {{ errorMessage }}
-                  </div>
-            </div>
-        </form>
+        <!-- Input email -->
+        <input type="text" placeholder="Email" formControlName="email"
+          class="p-4 border border-blue-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-400">
+        <div *ngIf="username?.invalid && username?.touched" class="text-red-400 text-sm mt-0 error-form">
+          <div *ngIf="username?.hasError('required')">L'email è obbligatoria.</div>
+          <div *ngIf="username?.hasError('email')">Formato email non valido.</div>
+        </div>
+
+        <!-- Input password -->
+        <input type="password" placeholder="Password" formControlName="password" minlength="6"
+          class="p-4 border border-blue-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-400">
+        <div *ngIf="password?.invalid && password?.touched" class="text-red-400 text-sm error-form">
+          <div *ngIf="password?.hasError('required')">La password è obbligatoria.</div>
+          <div *ngIf="password?.hasError('minlength')">La password deve essere lunga almeno 6 caratteri.</div>
+        </div>
+
+        <!-- Button Login -->
+        <button type="submit" [disabled]="form.invalid"
+          class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-md transform hover:scale-105 transition duration-300">
+          Login
+        </button>
+
+        <!-- Error message -->
+        <div *ngIf="errorMessage" class="text-red-400 text-center">
+          {{ errorMessage }}
+        </div>
+      </div>
+    </form>
   
       <!-- Sezione: Login social -->
       <div class="flex flex-col gap-4">
