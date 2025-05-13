@@ -34,7 +34,7 @@
                         </button>
                     </td>
                 </tr>
-                <tr *ngIf="!historyResponses">
+                <tr *ngIf="historyResponses?.length == 0">
                     <td colspan="5" class="text-center py-8">
                         Nessun caricamento effettuato
                     </td>

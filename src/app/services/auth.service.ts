@@ -4,12 +4,15 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Users } from '../Interfaces/Users';
 import { UsersService } from './user.service';
+import { ErrorDialogComponent } from '../component/error-dialog/error-dialog/error-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
     constructor(
-        private usersService: UsersService
+        private usersService: UsersService,
+        private dialog: MatDialog
     ) {}
 
   private auth = inject(Auth);
@@ -45,9 +48,21 @@ export class AuthService {
         this.saveUserRedirect(u);
       })
       .catch((error) => {
-        console.error(error);
-      });
-
+          if (error.code === 'auth/email-already-in-use') 
+          {
+            this.dialog.open(ErrorDialogComponent, {
+              panelClass: 'no-border-radius-dialog',
+              data: {
+                title: 'Errore login',
+                message: 'Questa email è già registrata. Se hai usato Google o GitHub, prova ad accedere con quel provider.'
+              }
+            });          
+          } 
+          else 
+          {
+            console.error(error);
+          }
+        });
     } 
     catch (err: any) {
       console.error(err);

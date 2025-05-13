@@ -33,7 +33,7 @@ export class ShortenerService {
   deleteList(guid: string): Observable<ShortUrlResponse[]>{
       const userId = localStorage.getItem("tokenId");
 
-      return this.http.delete<ShortUrlResponse[]>(api_url + this.url + "/DeleteList?userId=" + userId + "&guidOperation=" + guid);
+      return this.http.post<ShortUrlResponse[]>(api_url + this.url + "/DeleteList?userId=" + userId + "&guidOperation=" + guid, null);
   }
 
 }

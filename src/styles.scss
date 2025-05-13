@@ -9,3 +9,9 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
+.no-border-radius-dialog .mat-mdc-dialog-surface {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  background: none;
+}

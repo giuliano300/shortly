@@ -4,7 +4,11 @@ module.exports = {
     "./src/**/*.{html,ts}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      zIndex: {
+        '999': '999',
+      }
+    },
   },
   plugins: [],
 }
